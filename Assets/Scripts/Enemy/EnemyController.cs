@@ -96,6 +96,7 @@ public class EnemyController: MonoBehaviour
 
     public void ShootProjectile()
     {
+        transform.LookAt(player.transform.position);
         Vector3 CurrentRotation = transform.eulerAngles;
         var projectile = Instantiate(enemyProjectile, enemyProjectileSpawnPoint.position, Quaternion.Euler(CurrentRotation)) as Rigidbody;
         projectile.AddForce(transform.forward * projectileSpeed);
