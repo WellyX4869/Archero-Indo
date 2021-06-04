@@ -10,12 +10,7 @@ public class HitState : State
     public override void EnterState(EnemyController enemy)
     {
         enemy.animator.SetBool("Hit", true);
-        // Damage Player
-        if (enemy.isRanged)
-        {
-            enemy.ShootProjectile();
-        }
-
+     
         if (!enemy.isRanged && enemy.IsPlayerWithinAttackRange())
         {
             enemy.transform.LookAt(enemy.player.transform.position);

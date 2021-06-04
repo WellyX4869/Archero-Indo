@@ -25,6 +25,7 @@ public class PlayerTargeting : MonoBehaviour
     public bool getATarget = false;
     public LayerMask enemyMask;
     public LayerMask obstacleMask;
+    public bool isAttackDebug = true;
 
     public List<GameObject> MonsterList = new List<GameObject>();
 
@@ -83,7 +84,8 @@ public class PlayerTargeting : MonoBehaviour
     {
         GetTarget();
         SetTarget();
-        AttackTarget();
+        if(isAttackDebug)
+            AttackTarget();
     }
 
     private void GetTarget()
