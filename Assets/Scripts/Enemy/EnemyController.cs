@@ -12,10 +12,12 @@ public class EnemyController: MonoBehaviour
     public readonly IdleState idleState = new IdleState();
     State currentState;
 
+    [Header("Tidak perlu diisi")]
     public Rigidbody rigidBody;
     public NavMeshAgent navAgent;
     public Animator animator;
 
+    [Header("Wajib diisi")]
     public GameObject enemyCanvasGo;
     public TMP_Text stateText = null;
     public GameObject player = null;
@@ -71,6 +73,12 @@ public class EnemyController: MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        //Gizmos.color = Color.black;
+        
+        //Vector3 startPos = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
+        //Vector3 direction = transform.TransformDirection(Vector3.forward) * 80f;
+        //Gizmos.DrawRay(startPos, direction);
     }
 
     public bool IsPlayerWithinAttackRange()
@@ -81,6 +89,14 @@ public class EnemyController: MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void MeleeHit()
+    {
+        if (IsPlayerWithinAttackRange())
+        {
+            player.GetComponent<PlayerHpBar>().GetAttacked(damage);
+        }
     }
 
     public void ShootDangerMarker()
@@ -96,9 +112,8 @@ public class EnemyController: MonoBehaviour
 
     public void ShootProjectile()
     {
-        Vector3 CurrentRotation = transform.eulerAngles;
-        Vector3 NewPosition = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
-        var projectile = Instantiate(enemyProjectile, enemyProjectileSpawnPoint.position, Quaternion.Euler(CurrentRotation)) as Rigidbody;
+        Vector3 currentRotation = transform.eulerAngles;
+        var projectile = Instantiate(enemyProjectile, enemyProjectileSpawnPoint.position, Quaternion.Euler(currentRotation)) as Rigidbody;
         projectile.AddForce(transform.forward * projectileSpeed);
     }
 }

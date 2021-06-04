@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackState : State
 {
     float elapsedTime = 0f;
-    
+
     public override void EnterState(EnemyController enemy)
     {
         enemy.navAgent.isStopped = true;

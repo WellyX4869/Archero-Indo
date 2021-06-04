@@ -11,10 +11,9 @@ public class HitState : State
     {
         enemy.animator.SetBool("Hit", true);
      
-        if (!enemy.isRanged && enemy.IsPlayerWithinAttackRange())
+        if (!enemy.isRanged)
         {
-            enemy.transform.LookAt(enemy.player.transform.position);
-            enemy.player.GetComponent<PlayerHpBar>().GetAttacked(enemy.damage);
+            enemy.transform.LookAt(enemy.player.transform.position);      
         }
     }
 
