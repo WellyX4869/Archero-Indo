@@ -11,31 +11,38 @@ public class AttackState : State
         enemy.navAgent.isStopped = true;
         enemy.navAgent.stoppingDistance = 0f;
         enemy.animator.SetBool("Attack", true);
-        if (enemy.isRanged)
+        if (enemy.isRanged && enemy.rangedType == 1)
         {
-            RangedUpdate(enemy);
+            enemy.ShootDangerMarker();
         }
     }
 
     public override void Update(EnemyController enemy)
     {
         elapsedTime += Time.deltaTime;
+        if (enemy.isRanged && enemy.rangedType == 2)
+        {
+            enemy.ShootDangerMarker2();
+        }
+
         if (!enemy.IsPlayerWithinAttackRange())
         {
             enemy.animator.SetBool("Attack", false);
+            enemy.DangerMarkerDeactivate();
             enemy.TransitionToState(new ChaseState());
         }
 
         if(elapsedTime >= enemy.attackCooldown)
         {
+            enemy.DangerMarkerDeactivate();
             enemy.TransitionToState(new HitState());
             elapsedTime = 0f;
         }
     }
 
-    private void RangedUpdate(EnemyController enemy)
-    {
-        // CREATE DANGER LINE
-        enemy.ShootDangerMarker();
-    }
+    //private void RangedUpdate(EnemyController enemy)
+    //{
+    //    // CREATE DANGER LINE
+    //    enemy.ShootDangerMarker();
+    //}
 }

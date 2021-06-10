@@ -6,7 +6,6 @@ using UnityEngine;
 public class HitState : State
 {
     float elapsedTime = 0f;
-
     public override void EnterState(EnemyController enemy)
     {
         enemy.animator.SetBool("Hit", true);
@@ -19,7 +18,12 @@ public class HitState : State
 
     public override void Update(EnemyController enemy)
     {
+        elapsedTime += Time.deltaTime;
         enemy.animator.SetBool("Hit", false);
-        enemy.TransitionToState(new AttackState());
+
+        if (enemy.isRanged && elapsedTime >= enemy.hitLength)
+        {
+            enemy.TransitionToState(new AttackState());
+        }
     }
 }
