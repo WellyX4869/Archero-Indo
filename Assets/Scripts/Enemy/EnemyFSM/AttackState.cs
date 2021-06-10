@@ -13,14 +13,22 @@ public class AttackState : State
         enemy.animator.SetBool("Attack", true);
         if (enemy.isRanged && enemy.rangedType == 1)
         {
-            enemy.ShootDangerMarker();
+            enemy.ShootDangerMarker1();
+        }
+        // FOR MELEE
+        if (!enemy.isRanged && enemy.firstAttack)
+        {
+            enemy.firstAttack = false;
+            enemy.TransitionToState(new HitState());
         }
     }
 
     public override void Update(EnemyController enemy)
     {
         elapsedTime += Time.deltaTime;
-        if (enemy.isRanged && enemy.rangedType == 2)
+
+        // FOR RANGED
+        if (enemy.isRanged && enemy.rangedType == 2 && elapsedTime < enemy.attackCooldown)
         {
             enemy.ShootDangerMarker2();
         }
@@ -28,24 +36,22 @@ public class AttackState : State
         if (!enemy.IsPlayerWithinAttackRange())
         {
             enemy.animator.SetBool("Attack", false);
-         
-            enemy.DangerMarkerDeactivate();
-
+            if(enemy.isRanged)
+                enemy.DangerMarkerDeactivate();
+            else enemy.firstAttack = true;
             enemy.TransitionToState(new ChaseState());
         }
 
         if(elapsedTime >= enemy.attackCooldown)
         {
-            enemy.DangerMarkerDeactivate();
-
-            enemy.TransitionToState(new HitState());
-            elapsedTime = 0f;
+            if(enemy.isRanged)
+                enemy.DangerMarkerDeactivate();
+            
+            if(elapsedTime >= enemy.attackCooldown + enemy.exitTime)
+            {
+                enemy.TransitionToState(new HitState());
+                elapsedTime = 0f; 
+            }
         }
     }
-
-    //private void RangedUpdate(EnemyController enemy)
-    //{
-    //    // CREATE DANGER LINE
-    //    enemy.ShootDangerMarker();
-    //}
 }

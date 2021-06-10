@@ -169,7 +169,8 @@ public class PlayerTargeting : MonoBehaviour
     {
         //Spawn projectile
         playerMovement.anim.SetFloat("AttackSpeed", attackSpeed);
-        var projectile = Instantiate(playerProjectile, projectileSpawnPoint.position, Quaternion.identity) as Rigidbody;
+        Vector3 currentRotation = transform.eulerAngles;
+        var projectile = Instantiate(playerProjectile, projectileSpawnPoint.position, Quaternion.Euler(currentRotation)) as Rigidbody;
         projectile.gameObject.transform.parent = projectileParent;
         projectile.AddForce(transform.forward * projectileSpeed);
     }

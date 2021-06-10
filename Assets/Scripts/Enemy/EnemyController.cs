@@ -21,6 +21,9 @@ public class EnemyController: MonoBehaviour
     [HideInInspector] public NavMeshAgent navAgent;
     [HideInInspector] public Animator animator;
     [HideInInspector] public GameObject player = null;
+    [HideInInspector] public float hitLength;
+    [HideInInspector] public float exitTime = 0.625f;
+    [HideInInspector] public bool firstAttack = true;
 
     [Header("Related GameObjects")]
     public GameObject enemyCanvasGo;
@@ -41,8 +44,7 @@ public class EnemyController: MonoBehaviour
     public float projectileSpeed = 100f;
     public Transform projectileSpawnPoint = null;
     public LayerMask layerMask;
-    [HideInInspector] public float hitLength;
-
+  
     //#region Editor
     //#if UNITY_EDITOR
     //[CustomEditor(typeof(EnemyController))]
@@ -74,6 +76,10 @@ public class EnemyController: MonoBehaviour
         {
             SetUpLineRenderer();
             hitLength = GetAnimationClipLength("throw");
+        }
+        else
+        {
+            firstAttack = true;
         }
         TransitionToState(idleState);
     }
@@ -117,11 +123,11 @@ public class EnemyController: MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
 
-        //Gizmos.color = Color.black;
-        
-        //Vector3 startPos = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
-        //Vector3 direction = transform.TransformDirection(Vector3.forward) * 80f;
-        //Gizmos.DrawRay(startPos, direction);
+        Gizmos.color = Color.black;
+
+        Vector3 startPos = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
+        Vector3 direction = transform.TransformDirection(Vector3.forward) * attackRange;
+        Gizmos.DrawRay(startPos, direction);
     }
 
     public bool IsPlayerWithinAttackRange()
@@ -155,8 +161,9 @@ public class EnemyController: MonoBehaviour
         }
     }
 
-    private void ShootDangerMarker1()
+    public void ShootDangerMarker1()
     {
+        transform.LookAt(player.transform.position);
         //Vector3 NewPosition = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
         //RaycastHit hit;
         //Physics.Raycast(NewPosition, transform.forward, out hit, 500f, layerMask);
@@ -177,8 +184,6 @@ public class EnemyController: MonoBehaviour
         newPos = new Vector3(hit.point.x, y, hit.point.z);
         lineRend.SetPosition(1, newPos);
         newDir = Vector3.Reflect(newDir, hit.normal);
-        
-
     }
 
     public void ShootDangerMarker2()
@@ -209,6 +214,7 @@ public class EnemyController: MonoBehaviour
     {
         Vector3 currentRotation = transform.eulerAngles;
         var projectile = Instantiate(enemyProjectile, projectileSpawnPoint.position, Quaternion.Euler(currentRotation)) as Rigidbody;
+        projectile.transform.parent = transform.parent;
         projectile.AddForce(transform.forward * projectileSpeed);
     }
 

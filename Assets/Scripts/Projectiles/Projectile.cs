@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
 
     Rigidbody rb;
     int bounceTimes = 3;
+    private float projectileSpeed = 2000f;
     Vector3 newDir;
 
     // Start is called before the first frame update
@@ -17,6 +18,7 @@ public class Projectile : MonoBehaviour
     {
         if (isBouncy)
         {
+            projectileSpeed = transform.parent.GetComponentInChildren<EnemyController>().projectileSpeed;
             rb = GetComponent<Rigidbody>();
             newDir = transform.forward;
             rb.velocity = newDir;
@@ -41,7 +43,7 @@ public class Projectile : MonoBehaviour
                 Vector3 reflectDir = Vector3.Reflect(transform.forward, collision.contacts[0].normal).normalized;
                 float rot = 90 - Mathf.Atan2(reflectDir.z, reflectDir.x) * Mathf.Rad2Deg;
                 transform.eulerAngles = new Vector3(0, rot, 0);
-                rb.AddForce(transform.eulerAngles * 2000f);
+                rb.AddForce(transform.eulerAngles * projectileSpeed);
             }
             
             if(collision.gameObject.tag != "Wall" || bounceTimes <= 0)
