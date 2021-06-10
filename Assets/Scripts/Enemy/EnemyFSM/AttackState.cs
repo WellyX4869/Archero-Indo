@@ -28,13 +28,16 @@ public class AttackState : State
         if (!enemy.IsPlayerWithinAttackRange())
         {
             enemy.animator.SetBool("Attack", false);
+         
             enemy.DangerMarkerDeactivate();
+
             enemy.TransitionToState(new ChaseState());
         }
 
         if(elapsedTime >= enemy.attackCooldown)
         {
             enemy.DangerMarkerDeactivate();
+
             enemy.TransitionToState(new HitState());
             elapsedTime = 0f;
         }

@@ -35,7 +35,6 @@ public class EnemyController: MonoBehaviour
     public bool isRanged;
     [Range(1,2)]
     public int rangedType = 1;
-    public GameObject DangerMarker = null;
     LineRenderer lineRend = null;
     public float lineRendWidth = 1f;
     public Rigidbody enemyProjectile = null;
@@ -71,7 +70,7 @@ public class EnemyController: MonoBehaviour
         navAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
-        if(isRanged && rangedType == 2)
+        if(isRanged)
         {
             SetUpLineRenderer();
             hitLength = GetAnimationClipLength("throw");
@@ -158,12 +157,28 @@ public class EnemyController: MonoBehaviour
 
     private void ShootDangerMarker1()
     {
-        Vector3 NewPosition = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
-        RaycastHit hit;
-        Physics.Raycast(NewPosition, transform.forward, out hit, 500f, layerMask);
+        //Vector3 NewPosition = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
+        //RaycastHit hit;
+        //Physics.Raycast(NewPosition, transform.forward, out hit, 500f, layerMask);
 
-        GameObject DangerMarkerClone = Instantiate(DangerMarker, NewPosition, transform.rotation);
-        DangerMarkerClone.GetComponent<DangerLine>().EndPosition = hit.point;
+        //GameObject DangerMarkerClone = Instantiate(DangerMarker, NewPosition, transform.rotation);
+        //DangerMarkerClone.GetComponent<DangerLine>().EndPosition = hit.point;
+        transform.LookAt(player.transform.position);
+        Vector3 newPos = projectileSpawnPoint.position;
+        float y = newPos.y;
+        Vector3 newDir = transform.forward;
+        lineRend.positionCount = 1;
+        Vector3 startPos = new Vector3(transform.position.x, 1f, transform.position.z);
+        lineRend.SetPosition(0, startPos);
+       
+        RaycastHit hit;
+        Physics.Raycast(newPos, newDir, out hit, 500f, layerMask);
+        lineRend.positionCount++;
+        newPos = new Vector3(hit.point.x, y, hit.point.z);
+        lineRend.SetPosition(1, newPos);
+        newDir = Vector3.Reflect(newDir, hit.normal);
+        
+
     }
 
     public void ShootDangerMarker2()

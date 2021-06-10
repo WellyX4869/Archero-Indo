@@ -8,6 +8,8 @@ public class HitState : State
     float elapsedTime = 0f;
     public override void EnterState(EnemyController enemy)
     {
+        enemy.navAgent.isStopped = true;
+        enemy.navAgent.stoppingDistance = 0f;
         enemy.animator.SetBool("Hit", true);
      
         if (!enemy.isRanged)
@@ -18,6 +20,8 @@ public class HitState : State
 
     public override void Update(EnemyController enemy)
     {
+        //enemy.transform.rotation = Quaternion.identity;
+
         elapsedTime += Time.deltaTime;
         enemy.animator.SetBool("Hit", false);
 
