@@ -12,9 +12,12 @@ public class EnemyHpBar : MonoBehaviour
     public float currentHp = 1000f;
     public bool backHpHit;
 
+    private Vector3 offset;
+
     private void Start()
     {
         backHpHit = false;
+        offset = transform.position;
     }
 
     private void Update()
