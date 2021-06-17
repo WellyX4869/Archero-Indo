@@ -4,7 +4,7 @@ using TMPro;
 
 public class PlayerHpBar : MonoBehaviour
 {
-    public static PlayerHpBar Instance // singlton     
+    public static PlayerHpBar Instance // singleton     
     {
         get
         {
@@ -72,6 +72,10 @@ public class PlayerHpBar : MonoBehaviour
     public void GetAttacked(int damage)
     {
         currentHp -= damage;
+        if(currentHp <= 0)
+        {
+            FindObjectOfType<LevelHandler>().GameOver();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

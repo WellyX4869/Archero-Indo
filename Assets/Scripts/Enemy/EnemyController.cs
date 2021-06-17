@@ -99,7 +99,7 @@ public class EnemyController: MonoBehaviour
    
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Projectile"))
+        if (collision.transform.CompareTag("Projectile") && collision.gameObject.GetComponent<Projectile>().isPlayerProjectile)
         {
             if(collision.gameObject == null)
             {

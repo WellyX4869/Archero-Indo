@@ -13,6 +13,8 @@ public class Projectile : MonoBehaviour
     private float projectileSpeed = 2000f;
     Vector3 newDir;
 
+    public bool isPlayerProjectile = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +54,30 @@ public class Projectile : MonoBehaviour
             }
         }
     }
+
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Monster")
+    //    {
+    //        gameObject.GetComponent<Collider>().isTrigger = false;
+    //    }
+    //}
+
+    //private void DestroyProjectile(Collision collision)
+    //{
+    //    if (!isPlayerProjectile)
+    //    {
+    //        if(collision.gameObject.tag == "Monster")
+    //        {
+    //            gameObject.GetComponent<Collider>().isTrigger = true;
+    //            return;
+    //        }
+
+    //    }
+     
+    //    Destroy(gameObject);
+
+    //}
 
     //private void OnDrawGizmos()
     //{

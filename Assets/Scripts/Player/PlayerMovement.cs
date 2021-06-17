@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float moveSpeed = 25f;
     [SerializeField] FloatingJoystick joyStick;
-    [SerializeField] float offsetStick = 0.1f;
 
     public PlayerState playerState;
     private static PlayerMovement instance;
@@ -40,8 +39,7 @@ public class PlayerMovement : MonoBehaviour
         float moveHorizontal = joyStick.Horizontal;
         float moveVertical = joyStick.Vertical;
 
-        if(moveHorizontal > offsetStick || moveHorizontal < -offsetStick || 
-           moveVertical > offsetStick || moveVertical < -offsetStick)
+        if(moveHorizontal != 0 || moveVertical != 0)
         {
             rb.velocity = new Vector3(moveHorizontal * moveSpeed, rb.velocity.y, moveVertical * moveSpeed);
             rb.rotation = Quaternion.LookRotation(new Vector3(joyStick.Direction.x * moveSpeed, rb.velocity.y, joyStick.Direction.y * moveSpeed));

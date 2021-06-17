@@ -82,7 +82,12 @@ public class PlayerTargeting : MonoBehaviour
 
     private void Update()
     {
-        GetTarget();
+        if (MonsterList.Count <= 0)
+        {
+            return;
+        }
+
+        GetTarget(); 
         SetTarget();
         if(isAttackDebug)
             AttackTarget();
@@ -93,8 +98,17 @@ public class PlayerTargeting : MonoBehaviour
         var enemies = FindObjectsOfType<EnemyController>();
         if(enemies.Length != MonsterList.Count)
         {
+
             MonsterList.Clear();
             AddEnemies();
+
+        }
+        
+        if(MonsterList.Count <= 0)
+        {
+            var playerState = playerMovement.playerState;
+            playerState = PlayerState.idle;
+            playerMovement.anim.SetBool("ATTACK", false);
         }
     }
 
@@ -171,6 +185,7 @@ public class PlayerTargeting : MonoBehaviour
         playerMovement.anim.SetFloat("AttackSpeed", attackSpeed);
         Vector3 currentRotation = transform.eulerAngles;
         var projectile = Instantiate(playerProjectile, projectileSpawnPoint.position, Quaternion.Euler(currentRotation)) as Rigidbody;
+        projectile.GetComponent<Projectile>().isPlayerProjectile = true;
         projectile.gameObject.transform.parent = projectileParent;
         projectile.AddForce(transform.forward * projectileSpeed);
     }
