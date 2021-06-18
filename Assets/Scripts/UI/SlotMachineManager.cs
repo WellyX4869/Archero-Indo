@@ -65,7 +65,7 @@ public class SlotMachineManager : MonoBehaviour
         }
     }
 
-    int[] answer = { 2, 3, 1  };
+    int[] answer = { 2, 2, 2  };
     IEnumerator StartSlot(int slotIndex)
     {
         for(int i = 0; i < (itemCount * (6 + slotIndex * 4) + answer[slotIndex]) * 2; i++)
