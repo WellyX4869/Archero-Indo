@@ -38,7 +38,7 @@ public class EnemyHpBar : MonoBehaviour
 
     public void GetAttacked(float damage)
     {
-        currentHp -= 100f;
+        currentHp -= damage;
         if(currentHp <= 0f)
         {
             Destroy(gameObject.transform.parent.gameObject);

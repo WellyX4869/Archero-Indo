@@ -23,7 +23,6 @@ public class SlotMachineManager : MonoBehaviour
     public List<int> resultIndexList = new List<int>();
     int itemCount = 3;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -66,7 +65,7 @@ public class SlotMachineManager : MonoBehaviour
         }
     }
 
-    int[] answer = { 0, 0, 0  };
+    int[] answer = { 2, 3, 1  };
     IEnumerator StartSlot(int slotIndex)
     {
         for(int i = 0; i < (itemCount * (6 + slotIndex * 4) + answer[slotIndex]) * 2; i++)
@@ -88,12 +87,5 @@ public class SlotMachineManager : MonoBehaviour
     public void ClickButton(int index)
     {
         displayResultImage.sprite = skillSprite[resultIndexList[index]];
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

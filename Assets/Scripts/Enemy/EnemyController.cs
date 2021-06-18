@@ -12,7 +12,8 @@ using TMPro;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController: MonoBehaviour
 {
-    //enum EnemyType { Melee, Ranged }
+
+    #region PRIVATE_VAR
     string currentStateName;
     public readonly IdleState idleState = new IdleState();
     State currentState;
@@ -24,12 +25,15 @@ public class EnemyController: MonoBehaviour
     [HideInInspector] public float hitLength;
     [HideInInspector] public float exitTime = 0.625f;
     [HideInInspector] public bool firstAttack = true;
+    #endregion
 
+    #region PUBLIC_VAR
     [Header("Related GameObjects")]
     public GameObject enemyCanvasGo;
     public TMP_Text stateText = null;
 
     [Header("Enemy Config")]
+    public bool isIdleDebug = false;
     public float attackRange = 20f;
     public float attackCooldown = 2f;
     public int damage = 100;
@@ -44,26 +48,7 @@ public class EnemyController: MonoBehaviour
     public float projectileSpeed = 100f;
     public Transform projectileSpawnPoint = null;
     public LayerMask layerMask;
-  
-    //#region Editor
-    //#if UNITY_EDITOR
-    //[CustomEditor(typeof(EnemyController))]
-    //public class EnemyControllerEditor : Editor
-    //{
-    //    public override void OnInspectorGUI()
-    //    {
-    //        base.OnInspectorGUI();
-
-    //        EnemyController enemyController = (EnemyController)target;
-
-    //        EditorGUILayout.Space();
-    //        EditorGUILayout.LabelField("Details");
-    //        EditorGUILayout.BeginHorizontal();
-    //        EditorGUILayout.EndHorizontal();
-    //    }
-    //}
-    //#endif
-    //#endregion
+    #endregion
 
     private void Start()
     {
@@ -96,27 +81,6 @@ public class EnemyController: MonoBehaviour
         currentState = state;
         currentState.EnterState(this);
     }
-   
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Projectile") && collision.gameObject.GetComponent<Projectile>().isPlayerProjectile)
-        {
-            if(collision.gameObject == null)
-            {
-                return;
-            }
-            enemyCanvasGo.GetComponent<EnemyHpBar>().GetAttacked(collision.gameObject.GetComponent<Projectile>().damage);
-        }
-    }
-
-    private void SetUpLineRenderer()
-    {
-        lineRend = GetComponent<LineRenderer>();
-        lineRend.startColor = new Color(1, 0, 0, 0.5f);
-        lineRend.endColor = new Color(1, 0, 0, 0.5f);
-        lineRend.startWidth = lineRendWidth;
-        lineRend.endWidth = lineRendWidth;
-    }
 
     private void OnDrawGizmos()
     {
@@ -140,6 +104,7 @@ public class EnemyController: MonoBehaviour
         return false;
     }
 
+    #region MELEE_FUNCTION
     public void MeleeHit()
     {
         if (IsPlayerWithinAttackRange())
@@ -147,20 +112,17 @@ public class EnemyController: MonoBehaviour
             player.GetComponent<PlayerHpBar>().GetAttacked(damage);
         }
     }
+    #endregion
 
-    public void ShootDangerMarker()
+    #region RANGED_FUNCTION
+    private void SetUpLineRenderer()
     {
-        transform.LookAt(player.transform.position);
-        if(rangedType == 1)
-        {
-            ShootDangerMarker1();
-        }
-        else if(rangedType == 2)
-        {
-            ShootDangerMarker2();
-        }
+        lineRend = GetComponent<LineRenderer>();
+        lineRend.startColor = new Color(1, 0, 0, 0.5f);
+        lineRend.endColor = new Color(1, 0, 0, 0.5f);
+        lineRend.startWidth = lineRendWidth;
+        lineRend.endWidth = lineRendWidth;
     }
-
     public void ShootDangerMarker1()
     {
         transform.LookAt(player.transform.position);
@@ -185,7 +147,6 @@ public class EnemyController: MonoBehaviour
         lineRend.SetPosition(1, newPos);
         newDir = Vector3.Reflect(newDir, hit.normal);
     }
-
     public void ShootDangerMarker2()
     {
         transform.LookAt(player.transform.position);
@@ -204,20 +165,10 @@ public class EnemyController: MonoBehaviour
             newDir = Vector3.Reflect(newDir, hit.normal);
         }
     }
-
     public void DangerMarkerDeactivate()
     {
         lineRend.positionCount = 0;
     }
-
-    public void ShootProjectile()
-    {
-        Vector3 currentRotation = transform.eulerAngles;
-        var projectile = Instantiate(enemyProjectile, projectileSpawnPoint.position, Quaternion.Euler(currentRotation)) as Rigidbody;
-        projectile.transform.parent = transform.parent;
-        projectile.AddForce(transform.forward * projectileSpeed);
-    }
-
     public float GetAnimationClipLength(string clipName)
     {
         float time = 0f;
@@ -231,4 +182,12 @@ public class EnemyController: MonoBehaviour
         }
         return time;
     }
+    public void ShootProjectile()
+    {
+        Vector3 currentRotation = transform.eulerAngles;
+        var projectile = Instantiate(enemyProjectile, projectileSpawnPoint.position, Quaternion.Euler(currentRotation)) as Rigidbody;
+        projectile.transform.parent = transform.parent;
+        projectile.AddForce(transform.forward * projectileSpeed);
+    }
+    #endregion
 }

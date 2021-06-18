@@ -11,7 +11,7 @@ public class IdleState : State
 
     public override void Update(EnemyController enemy)
     {
-        if(enemy.player == null)
+        if(enemy.player == null || enemy.isIdleDebug)
         {
             return;
         }
