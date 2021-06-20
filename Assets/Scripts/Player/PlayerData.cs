@@ -25,7 +25,6 @@ public class PlayerData : MonoBehaviour
     public float damage = 50;
     public List<int> PlayerSkill = new List<int>();
     public GameObject[] playerProjectiles;
-
     /*
     PlayerSkill[0] = Ricochet
     PlayerSkill[1] = MultiShot

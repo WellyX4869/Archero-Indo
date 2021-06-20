@@ -17,20 +17,25 @@ public class SlotMachineManager : MonoBehaviour
     }
 
     public DisplayItemSlot[] displayItemSlots;
-    public Image displayResultImage;
 
     public List<int> startList = new List<int>();
     public List<int> resultIndexList = new List<int>();
     int itemCount = 3;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
+        SlotMachineStart();
+    }
+
+    private void SlotMachineStart()
+    {
+        startList.Clear();
         for (int i = 0; i < itemCount * slotButton.Length; i++)
         {
             startList.Add(i);
         }
 
+        resultIndexList.Clear();
         for (int i = 0; i < slotButton.Length; i++)
         {
             for (int j = 0; j < itemCount; j++)
@@ -55,37 +60,36 @@ public class SlotMachineManager : MonoBehaviour
             }
         }
 
-        //StartCoroutine(StartSlot1());
-        //StartCoroutine(StartSlot2());
-        //StartCoroutine(StartSlot3());
-
-        for(int i = 0; i < slotButton.Length; i++)
+        for (int i = 0; i < slotButton.Length; i++)
         {
             StartCoroutine(StartSlot(i));
+            slotButton[i].interactable = true;
         }
     }
 
     int[] answer = { 2, 2, 2  };
     IEnumerator StartSlot(int slotIndex)
     {
-        for(int i = 0; i < (itemCount * (6 + slotIndex * 4) + answer[slotIndex]) * 2; i++)
+        // SETUP FIRST POSITION
+        float divider = slotIndex == 0 ? 1 : slotIndex;
+        float substracter = slotIndex == 0 ? 1 : 0;
+        slotSkillObject[slotIndex].transform.localPosition = new Vector3(0, 50f + ((1 - substracter) / divider) * 100f - (answer[slotIndex] % 3 * 50f), 0);
+
+        for (int i = 0; i < (itemCount * (6 + slotIndex * 4) + answer[slotIndex]) * 2; i++)
         {
             slotSkillObject[slotIndex].transform.localPosition -= new Vector3(0, 50f, 0);
-            if(slotSkillObject[slotIndex].transform.localPosition.y < 50f)
+            if(slotSkillObject[slotIndex].transform.localPosition.y < 0f)
             {
-                slotSkillObject[slotIndex].transform.localPosition += new Vector3(0, 300f, 0);
+                slotSkillObject[slotIndex].transform.localPosition += new Vector3(0, 150f, 0);
             }
             yield return new WaitForSeconds(0.02f);
-        }
-
-        for(int i = 0; i < itemCount; i++)
-        {
-            slotButton[i].interactable = true; 
         }
     }
 
     public void ClickButton(int index)
     {
-        displayResultImage.sprite = skillSprite[resultIndexList[index]];
+        Debug.Log(resultIndexList[index]);
+        PlayerData.Instance.PlayerSkill[resultIndexList[index]] += 1;
+        FindObjectOfType<LevelHandler>().PlayerAfterLevelUp();
     }
 }

@@ -82,6 +82,15 @@ public class PlayerTargeting : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (MonsterList.Count <= 0 && other.transform.CompareTag("EXP"))
+        {
+            ExpBar.Instance.AddExp();
+            Destroy(other.transform.parent.gameObject);
+        }
+    }
+
     #region UPDATE_FUNCTION
     void AddEnemies()
     {
@@ -106,6 +115,9 @@ public class PlayerTargeting : MonoBehaviour
             var playerState = playerMovement.playerState;
             playerState = PlayerState.idle;
             playerMovement.anim.SetBool("ATTACK", false);
+
+            // Level is Cleared
+            FindObjectOfType<LevelHandler>().LevelCleared();
         }
     }
 

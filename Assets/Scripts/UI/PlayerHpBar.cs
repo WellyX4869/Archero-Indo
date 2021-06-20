@@ -74,13 +74,8 @@ public class PlayerHpBar : MonoBehaviour
         currentHp -= damage;
         if(currentHp <= 0)
         {
-            FindObjectOfType<LevelHandler>().GameOver();
+            currentHp = 0;
+            FindObjectOfType<LevelHandler>().LoseGame();
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.transform.CompareTag("Projectile"))
-            GetAttacked((int)collision.gameObject.GetComponent<Projectile>().damage);
     }
 }

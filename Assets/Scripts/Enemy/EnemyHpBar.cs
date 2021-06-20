@@ -39,11 +39,19 @@ public class EnemyHpBar : MonoBehaviour
     public void GetAttacked(float damage)
     {
         currentHp -= damage;
-        if(currentHp <= 0f)
+        Invoke("BackHpFun", 0.5f);
+        if (currentHp <= 0f)
         {
+            // Spawn EXP
+            Vector3 currentPos = new Vector3(transform.position.x, 3f, transform.position.z);
+            var gameSession = FindObjectOfType<GameSession>();
+            for(int i = 0; i < (gameSession.currentPlayerLevel/10 + 2 + Random.Range(0,3)); i++)
+            {
+                var expClone = Instantiate(gameSession.itemEXP, currentPos, transform.rotation);
+                expClone.transform.parent = gameSession.itemExpParent;
+            }
             Destroy(gameObject.transform.parent.gameObject);
         }
-        Invoke("BackHpFun", 0.5f);
     }
 
     void BackHpFun()

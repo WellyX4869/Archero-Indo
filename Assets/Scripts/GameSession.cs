@@ -5,18 +5,26 @@ using TMPro;
 
 public class GameSession : MonoBehaviour
 {
-    // config params
-    [SerializeField] TMP_Text coinText;
-    [SerializeField] int expPerEnemyDestroyed = 10;
+    // config EXP
+    [Header("Player + EXP Config")]
+    public GameObject itemEXP;
+    public Transform itemExpParent;
+    public float currentPlayerExp = 0;
+    public float[] levelUpLimit;
+    public float expAbsorbed = 10;
+    public int maxPlayerLevel = 10;
+    public int currentPlayerLevel = 0;
 
-    // state variables
-    [SerializeField] int currentCoin = 0;
-    [SerializeField] float currentPlayerExp = 0;
-
-    // public var
     public float enemyProjectileSpeed = 1f;
+    public int currentLevel = 1;
+    public int maxLevel = 10;
 
     private void Awake()
+    {
+        SetUpSingleton();
+    }
+
+    private void SetUpSingleton()
     {
         int gameStatusCount = FindObjectsOfType<GameSession>().Length;
         if (gameStatusCount > 1)
@@ -28,24 +36,5 @@ public class GameSession : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        coinText.text = currentCoin.ToString();   
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void AddCoin(int coins)
-    {
-        currentCoin += coins;
-        coinText.text = currentCoin.ToString();
     }
 }

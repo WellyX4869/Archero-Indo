@@ -191,8 +191,22 @@ public class Projectile : MonoBehaviour
 
     private void HitEnemy(Collider enemy)
     {
+        // Spawn Floating Damage Text
+        var enemyPos = enemy.transform.position;
+        enemyPos.y += 20f;
+        var damageText = Instantiate(EffectSet.Instance.MonsterDmgText, enemyPos, Quaternion.identity) as GameObject;
+        float damageCrit = damage;
+        bool isCritical = false;
+        if(Random.value > 0.5) // damage not critical
+        {
+            damageCrit *= 2;
+            isCritical = true;
+        }
+        damageText.GetComponent<DamageText>().DisplayDamage(damageCrit, isCritical);
+
+        // HitEnemy With Damage
         var enemyController = enemy.GetComponent<EnemyController>();
-        enemyController.enemyCanvasGo.GetComponent<EnemyHpBar>().GetAttacked(damage);
+        enemyController.enemyCanvasGo.GetComponent<EnemyHpBar>().GetAttacked(damageCrit);
     }
 
     //private void OnCollisionExit(Collision collision)
