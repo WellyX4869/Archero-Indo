@@ -31,5 +31,10 @@ public class PlayerData : MonoBehaviour
     PlayerSkill[2] = Forward Projectiles + 1
     PlayerSkill[3] = Diagonal Projectiles + 1
     PlayerSkill[4] = Bouncy Wall
+    PlayerSkill[5] = Rear Arrow + 1
+    PlayerSkill[6] = Side Arrow + 1
+    PlayerSkill[7] = Level Up Increase
+    PlayerSkill[8] = Attack Boost
+    PlayerSkill[9] = Attack Speed Boost
     */
 }

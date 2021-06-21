@@ -348,7 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1879,6 +1879,5 @@ MonoBehaviour:
     - {fileID: 3126475651342795920}
     - {fileID: 3126475651004833899}
     - {fileID: 3126475651931550030}
-  displayResultImage: {fileID: 3126475650868519875}
   startList: 
   resultIndexList: 

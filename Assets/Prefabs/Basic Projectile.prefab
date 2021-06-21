@@ -171,5 +171,5 @@ MonoBehaviour:
   delayUntilDestroyed: 5
   isPlayerProjectile: 0
   isBouncy: 0
-  damage: 100
+  damage: 200
   rb: {fileID: 0}

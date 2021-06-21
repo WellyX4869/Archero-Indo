@@ -22,6 +22,8 @@ public class SlotMachineManager : MonoBehaviour
     public List<int> resultIndexList = new List<int>();
     int itemCount = 3;
 
+    public Image resultImage;
+
     private void OnEnable()
     {
         SlotMachineStart();
@@ -73,14 +75,14 @@ public class SlotMachineManager : MonoBehaviour
         // SETUP FIRST POSITION
         float divider = slotIndex == 0 ? 1 : slotIndex;
         float substracter = slotIndex == 0 ? 1 : 0;
-        slotSkillObject[slotIndex].transform.localPosition = new Vector3(0, 50f + ((1 - substracter) / divider) * 100f - (answer[slotIndex] % 3 * 50f), 0);
+        slotSkillObject[slotIndex].transform.localPosition = new Vector3(0, 200f + ((1 - substracter) / divider) * 400f - (answer[slotIndex] % 3 * 200f), 0);
 
         for (int i = 0; i < (itemCount * (6 + slotIndex * 4) + answer[slotIndex]) * 2; i++)
         {
-            slotSkillObject[slotIndex].transform.localPosition -= new Vector3(0, 50f, 0);
+            slotSkillObject[slotIndex].transform.localPosition -= new Vector3(0, 200f, 0);
             if(slotSkillObject[slotIndex].transform.localPosition.y < 0f)
             {
-                slotSkillObject[slotIndex].transform.localPosition += new Vector3(0, 150f, 0);
+                slotSkillObject[slotIndex].transform.localPosition += new Vector3(0, 600f, 0);
             }
             yield return new WaitForSeconds(0.02f);
         }
@@ -89,6 +91,7 @@ public class SlotMachineManager : MonoBehaviour
     public void ClickButton(int index)
     {
         Debug.Log(resultIndexList[index]);
+        //resultImage.sprite = skillSprite[resultIndexList[index]];
         PlayerData.Instance.PlayerSkill[resultIndexList[index]] += 1;
         FindObjectOfType<LevelHandler>().PlayerAfterLevelUp();
     }
