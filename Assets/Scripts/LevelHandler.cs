@@ -81,4 +81,9 @@ public class LevelHandler : MonoBehaviour
         Time.timeScale = 0;
         canvasLose.gameObject.SetActive(true);
     }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }
