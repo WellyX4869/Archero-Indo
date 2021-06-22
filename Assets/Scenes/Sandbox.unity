@@ -1161,7 +1161,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: d647dc8c8eb175f43ac73d07e7991f60, type: 3}
+    m_Font: {fileID: 12800000, guid: 6830f7f258dc7a6438035e04eb5dd3f2, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
@@ -1877,7 +1877,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: d647dc8c8eb175f43ac73d07e7991f60, type: 3}
+    m_Font: {fileID: 12800000, guid: 6830f7f258dc7a6438035e04eb5dd3f2, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
@@ -5911,7 +5911,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 6830f7f258dc7a6438035e04eb5dd3f2, type: 3}
     m_FontSize: 64
     m_FontStyle: 1
     m_BestFit: 0
@@ -8618,6 +8618,37 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3002312821802884317, guid: e8f07e6f7f848b94eacd11bad1c72b36,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 3002312821802884317, guid: e8f07e6f7f848b94eacd11bad1c72b36,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 714dcb6f0509fc344aa083bea50bf83b,
+        type: 2}
+    - target: {fileID: 3002312821802884317, guid: e8f07e6f7f848b94eacd11bad1c72b36,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3002312821802884317, guid: e8f07e6f7f848b94eacd11bad1c72b36,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 3002312821802884317, guid: e8f07e6f7f848b94eacd11bad1c72b36,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d405e58637f58c408d1ae746768408c, type: 2}
+    - target: {fileID: 3002312821802884317, guid: e8f07e6f7f848b94eacd11bad1c72b36,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
       objectReference: {fileID: 0}
     - target: {fileID: 3002312821802884318, guid: e8f07e6f7f848b94eacd11bad1c72b36,
         type: 3}
