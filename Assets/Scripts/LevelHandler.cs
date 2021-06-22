@@ -49,6 +49,14 @@ public class LevelHandler : MonoBehaviour
         }
     }
 
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1;
+        var gameSession = FindObjectOfType<GameSession>();
+        gameSession.ResetGame();
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public void PlayerLevelUp()
     {
         PlayerMovement.Instance.StopPlayer();
