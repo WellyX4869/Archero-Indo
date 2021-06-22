@@ -51,6 +51,7 @@ public class LevelHandler : MonoBehaviour
 
     public void PlayerLevelUp()
     {
+        PlayerMovement.Instance.StopPlayer();
         joystick.gameObject.SetActive(false);
         slotCanvas.gameObject.SetActive(true);
     }
@@ -59,6 +60,7 @@ public class LevelHandler : MonoBehaviour
     {
         slotCanvas.gameObject.SetActive(false);
         joystick.gameObject.SetActive(true);
+        PlayerMovement.Instance.MovePlayer();
     }
 
     public void WinGame()
@@ -80,10 +82,5 @@ public class LevelHandler : MonoBehaviour
         joystick.gameObject.SetActive(false);
         Time.timeScale = 0;
         canvasLose.gameObject.SetActive(true);
-    }
-
-    public void GoToMainMenu()
-    {
-        SceneManager.LoadScene("MainMenu");
     }
 }

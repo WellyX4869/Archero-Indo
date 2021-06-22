@@ -56,8 +56,9 @@ public class PlayerHpBar : MonoBehaviour
 
     public void GetHpBoost ( )
     {
-        maxHp += 150;
-        currentHp += 150;
+        float increasedHp = Mathf.Round(0.2f * maxHp);
+        maxHp += increasedHp;
+        currentHp += increasedHp;
         float scaleX = ( 1000f / unitHp ) / ( maxHp / unitHp );
         HpLineFolder.GetComponent<HorizontalLayoutGroup> ( ).gameObject.SetActive ( false );
 

@@ -23,8 +23,12 @@ public class PlayerData : MonoBehaviour
     private static PlayerData instance;
 
     public float damage = 50;
+    public float damageIncrease = 50f;
+    public float critRNG = 0.8f;
     public List<int> PlayerSkill = new List<int>();
+    public List<int> PlayerSkillLimit = new List<int>();
     public GameObject[] playerProjectiles;
+
     /*
     PlayerSkill[0] = Ricochet
     PlayerSkill[1] = MultiShot
@@ -36,5 +40,16 @@ public class PlayerData : MonoBehaviour
     PlayerSkill[7] = Level Up Increase
     PlayerSkill[8] = Attack Boost
     PlayerSkill[9] = Attack Speed Boost
+    PlayerSkill[10] = Health Boost
+    PlayerSkill[11] = Critical Boost
     */
+    public void AttackBoost()
+    {
+        damage += damageIncrease;
+    }
+
+    public void CriticalBoost()
+    {
+        critRNG -= 0.05f;
+    }
 }

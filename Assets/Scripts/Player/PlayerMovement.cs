@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private static PlayerMovement instance;
     Rigidbody rb;
     public Animator anim;
+    private bool isStopped = false;
 
     private void Start()
     {
@@ -39,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         float moveHorizontal = joyStick.Horizontal;
         float moveVertical = joyStick.Vertical;
 
-        if(moveHorizontal != 0 || moveVertical != 0)
+        if((moveHorizontal != 0 || moveVertical != 0) && !isStopped)
         {
             rb.velocity = new Vector3(moveHorizontal * moveSpeed, rb.velocity.y, moveVertical * moveSpeed);
             rb.rotation = Quaternion.LookRotation(new Vector3(joyStick.Direction.x * moveSpeed, rb.velocity.y, joyStick.Direction.y * moveSpeed));
@@ -51,6 +52,16 @@ public class PlayerMovement : MonoBehaviour
             playerState = PlayerState.idle;
             anim.SetTrigger("IDLE");
         }
+    }
+
+    public void StopPlayer()
+    {
+        isStopped = true;
+    }
+
+    public void MovePlayer()
+    {
+        isStopped = false;
     }
 }
 

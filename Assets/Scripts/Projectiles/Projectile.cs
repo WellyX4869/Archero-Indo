@@ -29,7 +29,8 @@ public class Projectile : MonoBehaviour
         // SETUP PLAYER PROJECTILE
         if (isPlayerProjectile)
         {
-            projectileSpeed = PlayerTargeting.Instance.projectileSpeed;
+            projectileSpeed = PlayerTargeting.Instance.projectileSpeed + (200f * PlayerData.Instance.PlayerSkill[9]);
+            damage = PlayerData.Instance.damage;
             rb.AddForce(transform.forward * projectileSpeed);
         }
 
@@ -96,7 +97,6 @@ public class Projectile : MonoBehaviour
             }
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         // PROJECTILE PLAYER TO ENEMY
@@ -188,7 +188,6 @@ public class Projectile : MonoBehaviour
         var playerHP = FindObjectOfType<PlayerHpBar>();
         playerHP.GetAttacked((int)(Mathf.Floor(damage)));
     }
-
     private void HitEnemy(Collider enemy)
     {
         // Spawn Floating Damage Text
@@ -197,9 +196,10 @@ public class Projectile : MonoBehaviour
         var damageText = Instantiate(EffectSet.Instance.MonsterDmgText, enemyPos, Quaternion.identity) as GameObject;
         float damageCrit = damage;
         bool isCritical = false;
-        if(Random.value > 0.5) // damage not critical
+        if(Random.value > PlayerData.Instance.critRNG) // damage is critical
         {
-            damageCrit *= 2;
+            float critDamage = PlayerData.Instance.PlayerSkill[11] * 40f;
+            damageCrit = (damage*2) + critDamage;
             isCritical = true;
         }
         damageText.GetComponent<DamageText>().DisplayDamage(damageCrit, isCritical);
@@ -208,28 +208,4 @@ public class Projectile : MonoBehaviour
         var enemyController = enemy.GetComponent<EnemyController>();
         enemyController.enemyCanvasGo.GetComponent<EnemyHpBar>().GetAttacked(damageCrit);
     }
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    if (collision.gameObject.tag == "Monster")
-    //    {
-    //        gameObject.GetComponent<Collider>().isTrigger = false;
-    //    }
-    //}
-
-    //private void DestroyProjectile(Collision collision)
-    //{
-    //    if (!isPlayerProjectile)
-    //    {
-    //        if(collision.gameObject.tag == "Monster")
-    //        {
-    //            gameObject.GetComponent<Collider>().isTrigger = true;
-    //            return;
-    //        }
-
-    //    }
-
-    //    Destroy(gameObject);
-
-    //}
 }

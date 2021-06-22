@@ -87,11 +87,11 @@ public class EnemyController: MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
 
-        Gizmos.color = Color.black;
+        //Gizmos.color = Color.black;
 
-        Vector3 startPos = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
-        Vector3 direction = transform.TransformDirection(Vector3.forward) * attackRange;
-        Gizmos.DrawRay(startPos, direction);
+        //Vector3 startPos = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
+        //Vector3 direction = transform.TransformDirection(Vector3.forward) * attackRange;
+        //Gizmos.DrawRay(startPos, direction);
     }
 
     public bool IsPlayerWithinAttackRange()

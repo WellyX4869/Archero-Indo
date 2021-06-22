@@ -8,7 +8,7 @@ public class SlotMachineManager : MonoBehaviour
     public GameObject[] slotSkillObject;
     public Button[] slotButton;
 
-    public Sprite[] skillSprite;
+    public List<Sprite> skillSprite = new List<Sprite>();
 
     [System.Serializable]
     public class DisplayItemSlot
@@ -20,21 +20,49 @@ public class SlotMachineManager : MonoBehaviour
 
     public List<int> startList = new List<int>();
     public List<int> resultIndexList = new List<int>();
+    public List<bool> includedList = new List<bool>();
     int itemCount = 3;
 
     public Image resultImage;
 
     private void OnEnable()
     {
+        IncludedSkill();
         SlotMachineStart();
     }
 
     private void SlotMachineStart()
     {
         startList.Clear();
-        for (int i = 0; i < itemCount * slotButton.Length; i++)
+        int counter = 0;
+        for (int i = 0; i < skillSprite.Count; i++)
         {
-            startList.Add(i);
+            if (!includedList[i])
+            {
+                startList.Add(i);
+            }
+            else
+            {
+                counter++;
+                if (counter >= 3)
+                {
+                    startList.Add(i);
+                }
+            }
+        }
+
+        // GET 3 SKILL ANSWERS THAT STILL NOT REACHING LIMIT
+        List<int> answerList = new List<int>();
+        int answerFound = 0;
+        while (answerFound < 3)
+        {
+            int randomIndex = Random.Range(0, startList.Count);
+            if (includedList[startList[randomIndex]] == true)
+            {
+                answerList.Add(startList[randomIndex]);
+                startList.RemoveAt(randomIndex);
+                answerFound++;
+            }
         }
 
         resultIndexList.Clear();
@@ -45,27 +73,30 @@ public class SlotMachineManager : MonoBehaviour
                 slotButton[i].interactable = false;
 
                 int randomIndex = Random.Range(0, startList.Count);
-
+                int index = startList[randomIndex];
                 if (i == 0 && j == 1 || i == 1 && j == 0 || i == 2 && j == 2)
                 {
-                    resultIndexList.Add(startList[randomIndex]);
+                    index = answerList[i];
+                    resultIndexList.Add(index);
+                }
+                else
+                {
+                    startList.RemoveAt(randomIndex);
                 }
 
-                displayItemSlots[i].slotSprite[j].sprite = skillSprite[startList[randomIndex]];
+                displayItemSlots[i].slotSprite[j].sprite = skillSprite[index];
 
                 if (j == 0)
                 {
-                    displayItemSlots[i].slotSprite[itemCount].sprite = skillSprite[startList[randomIndex]];
+                    displayItemSlots[i].slotSprite[itemCount].sprite = skillSprite[index];
                 }
 
-                startList.RemoveAt(randomIndex);
             }
         }
 
         for (int i = 0; i < slotButton.Length; i++)
         {
             StartCoroutine(StartSlot(i));
-            slotButton[i].interactable = true;
         }
     }
 
@@ -86,13 +117,47 @@ public class SlotMachineManager : MonoBehaviour
             }
             yield return new WaitForSeconds(0.02f);
         }
+        
+        for(int i = 0; i<itemCount; i++)
+        {
+            slotButton[i].interactable = true;
+        }
     }
-
+    private void IncludedSkill()
+    {
+        includedList.Clear();
+        for (int i = 0; i < skillSprite.Count; i++)
+        {
+            if (PlayerData.Instance.PlayerSkill[i] >= PlayerData.Instance.PlayerSkillLimit[i])
+                includedList.Add(false);
+            else includedList.Add(true);
+        }
+    }
     public void ClickButton(int index)
     {
-        Debug.Log(resultIndexList[index]);
-        //resultImage.sprite = skillSprite[resultIndexList[index]];
         PlayerData.Instance.PlayerSkill[resultIndexList[index]] += 1;
+        #region HANDLE MISCELLANOUS SKILLS
+        if (resultIndexList[index] == 7) // Level Up Increase
+        {
+            FindObjectOfType<GameSession>().expAbsorbed *= 1.5f;
+        }
+        else if(resultIndexList[index] == 8) // Attack Boost
+        {
+            PlayerData.Instance.AttackBoost();
+        }
+        else if(resultIndexList[index] == 9) // Attack Speed Boost
+        {
+            PlayerTargeting.Instance.BoostAttackSpeed();
+        }
+        else if(resultIndexList[index] == 10) // Health Boost
+        {
+            PlayerHpBar.Instance.GetHpBoost();
+        }
+        else if (resultIndexList[index] == 10) // Health Boost
+        {
+            PlayerData.Instance.CriticalBoost();
+        }
+        #endregion
         FindObjectOfType<LevelHandler>().PlayerAfterLevelUp();
     }
 }

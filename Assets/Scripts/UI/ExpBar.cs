@@ -39,7 +39,6 @@ public class ExpBar : MonoBehaviour
     public void AddExp()
     {
         gameSession.currentPlayerExp += gameSession.expAbsorbed;
-        Debug.Log("EXP: "+ gameSession.currentPlayerExp);
         CalculateExpBar();
     }
 
@@ -53,13 +52,20 @@ public class ExpBar : MonoBehaviour
         float playerExp = gameSession.currentPlayerExp - treshold;
         float dividerPlayerExp = gameSession.levelUpLimit[gameSession.currentPlayerLevel] - treshold;
         expBar.value = playerExp / dividerPlayerExp;
-        levelText.text = "LV." + (gameSession.currentPlayerLevel + 1);
+        if(gameSession.currentPlayerLevel <= gameSession.maxPlayerLevel)
+        {
+            levelText.text = "LV." + (gameSession.currentPlayerLevel + 1);
+        }
+        else
+        {
+            levelText.text = "LV.MAX";
+        }
         LevelUpChecker();
     }
 
     private void LevelUpChecker()
     {
-        if (expBar.value >= 1)
+        if (expBar.value >= 1 && gameSession.currentPlayerLevel <= gameSession.maxPlayerLevel)
         {
             levelHandler.PlayerLevelUp();
             gameSession.currentPlayerLevel++;

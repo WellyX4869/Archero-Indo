@@ -28,18 +28,20 @@ public class PlayerTargeting : MonoBehaviour
 
     [Header("Projectile Config")]
     public Transform projectileSpawnPoint = null;
+    public Transform projectileRearSpawnPoint = null;
     public float projectileSpeed = 10f;
     public float attackSpeed = 1f;
     public Transform projectileParent = null;
     
     [HideInInspector] public List<GameObject> MonsterList = new List<GameObject>();
+    [HideInInspector] public int targetIndex = -1;
+    
     private static PlayerTargeting instance;
     Vector3 currentRotation;
     float currentDist = 0;
     float closestDist = 100f;
     float TargetDist = 100f;
     int closeDistIndex = 0;
-    public int targetIndex = -1;
     PlayerMovement playerMovement;
   
     private void Start()
@@ -89,6 +91,11 @@ public class PlayerTargeting : MonoBehaviour
             ExpBar.Instance.AddExp();
             Destroy(other.transform.parent.gameObject);
         }
+    }
+
+    public void BoostAttackSpeed()
+    {
+        attackSpeed += 0.1f;
     }
 
     #region UPDATE_FUNCTION
@@ -198,7 +205,8 @@ public class PlayerTargeting : MonoBehaviour
         ShootProjectile();
 
         // PlayerSkill[1] = MultiShot
-        if (PlayerData.Instance.PlayerSkill[1] != 0)
+        int multiShot = PlayerData.Instance.PlayerSkill[1];
+        if (multiShot != 0)
         {
             Invoke("ShootProjectile", 0.2f);
         }
@@ -207,24 +215,6 @@ public class PlayerTargeting : MonoBehaviour
     {
         if (playerMovement.playerState == PlayerState.attack)
         {
-            #region forwardProjectilesFailed
-            //float offsetX = 1.25f;
-            //int forwardProjectiles = PlayerData.Instance.PlayerSkill[2];
-            //for(int i = 0; i <= forwardProjectiles; i++)
-            //{
-            //    Vector3 spawnPos = Vector3.zero;
-            //    if(forwardProjectiles == 0)
-            //    {
-            //        spawnPos = projectileSpawnPoint.position;
-            //    }
-            //    else
-            //    {
-            //        spawnPos = projectileSpawnPoint.position;
-            //        spawnPos.x += offsetX * (-2) * i;
-            //    }
-            //    InstantiateProjectile(spawnPos);
-            //}
-            #endregion
             InstantiateProjectile();
         }
     }
@@ -257,6 +247,22 @@ public class PlayerTargeting : MonoBehaviour
         if (diagonalProjectiles > 0)
         {
             DiagonalProjectiles(diagonalProjectiles);
+        }
+        #endregion
+
+        #region SKILL REAR + 1 => ISPLAYERPROJECTILE
+        int rearProjectiles = PlayerData.Instance.PlayerSkill[5];
+        if(rearProjectiles > 0)
+        {
+            RearProjectiles(rearProjectiles);
+        }
+        #endregion
+
+        #region SKILL SIDE ARROW + 1 => ISPLAYERPROJECTILE
+        int sideProjectiles = PlayerData.Instance.PlayerSkill[6];
+        if (sideProjectiles > 0)
+        {
+            SideProjectiles(sideProjectiles);
         }
         #endregion
     }
@@ -294,5 +300,62 @@ public class PlayerTargeting : MonoBehaviour
             projectileRight.GetComponent<Projectile>().isPlayerProjectile = true;
         }
     }
+
+    private void RearProjectiles(int rearProjectiles)
+    {
+        // REAR PROJECTILE
+        var projectileRear = Instantiate(PlayerData.Instance.playerProjectiles[rearProjectiles - 1],
+                                projectileRearSpawnPoint.position,
+                                Quaternion.Euler(currentRotation + new Vector3(0, 180, 0)));
+        projectileRear.transform.parent = projectileParent;
+
+        if (rearProjectiles > 1)
+        {
+            var projectileRearComponents = projectileRear.GetComponentsInChildren<Projectile>();
+            foreach (Projectile proj in projectileRearComponents)
+            {
+                proj.isPlayerProjectile = true;
+            }
+        }
+        else if (rearProjectiles == 1)
+        {
+            projectileRear.GetComponent<Projectile>().isPlayerProjectile = true;
+        }
+    }
+
+    private void SideProjectiles(int sideProjectiles)
+    {
+        // SIDE LEFT PROJECTILE
+        var projectileLeft = Instantiate(PlayerData.Instance.playerProjectiles[sideProjectiles - 1],
+                                projectileSpawnPoint.position,
+                                Quaternion.Euler(currentRotation + new Vector3(0, -90f, 0)));
+        projectileLeft.transform.parent = projectileParent;
+
+        // SIDE RIGHT PROJECTILE
+        var projectileRight = Instantiate(PlayerData.Instance.playerProjectiles[sideProjectiles - 1],
+                                projectileSpawnPoint.position,
+                                Quaternion.Euler(currentRotation + new Vector3(0, 90f, 0)));
+        projectileRight.transform.parent = projectileParent;
+
+        if (sideProjectiles > 1)
+        {
+            var projectileLeftComponents = projectileLeft.GetComponentsInChildren<Projectile>();
+            foreach (Projectile proj in projectileLeftComponents)
+            {
+                proj.isPlayerProjectile = true;
+            }
+            var projectileRightComponents = projectileRight.GetComponentsInChildren<Projectile>();
+            foreach (Projectile proj in projectileRightComponents)
+            {
+                proj.isPlayerProjectile = true;
+            }
+        }
+        else if (sideProjectiles == 1)
+        {
+            projectileLeft.GetComponent<Projectile>().isPlayerProjectile = true;
+            projectileRight.GetComponent<Projectile>().isPlayerProjectile = true;
+        }
+    }
+
     #endregion
 }

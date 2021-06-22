@@ -15,17 +15,19 @@ public class AttackState : State
         {
             enemy.ShootDangerMarker1();
         }
-        // FOR MELEE
-        if (!enemy.isRanged && enemy.firstAttack)
-        {
-            enemy.firstAttack = false;
-            enemy.TransitionToState(new HitState());
-        }
     }
 
     public override void Update(EnemyController enemy)
     {
         elapsedTime += Time.deltaTime;
+
+        // FOR MELEE
+        if (!enemy.isRanged && enemy.firstAttack)
+        {
+            enemy.TransitionToState(new HitState());
+            enemy.firstAttack = false;
+            elapsedTime = 0f;
+        }
 
         // FOR RANGED
         if (enemy.isRanged && enemy.rangedType == 2 && elapsedTime < enemy.attackCooldown)
