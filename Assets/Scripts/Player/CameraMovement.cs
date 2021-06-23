@@ -35,10 +35,18 @@ public class CameraMovement : MonoBehaviour
     void LateUpdate()
     {
         //cameraPosition.x = Player.transform.position.x;
-        cameraPosition.y = Player.transform.position.y + offsetY;
-        cameraPosition.z = Player.transform.position.z + offsetZ;
+        if (Player != null)
+        {
+            cameraPosition.y = Player.transform.position.y + offsetY;
+            cameraPosition.z = Player.transform.position.z + offsetZ;
 
-        transform.position = cameraPosition;
+            transform.position = cameraPosition;
+        }
+    }
+
+    public void GetPlayer()
+    {
+        Player = PlayerMovement.Instance.gameObject;
     }
 
     public void CameraNextRoom()

@@ -18,6 +18,8 @@ public class EnemyHpBar : MonoBehaviour
     {
         backHpHit = false;
         offset = transform.position;
+        int level = FindObjectOfType<GameSession>().currentLevel;
+        currentHp += (level * 40f);
     }
 
     private void Update()

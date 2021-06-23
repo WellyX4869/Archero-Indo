@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [SerializeField] float moveSpeed = 25f;
-    [SerializeField] FloatingJoystick joyStick;
+    FloatingJoystick joyStick;
 
     public PlayerState playerState;
     private static PlayerMovement instance;
@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        joyStick = FindObjectOfType<FloatingJoystick>();
         playerState = PlayerState.idle;
     }
 

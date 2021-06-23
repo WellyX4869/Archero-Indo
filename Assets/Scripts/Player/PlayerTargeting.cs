@@ -21,7 +21,7 @@ public class PlayerTargeting : MonoBehaviour
         }
     }
 
-    public bool getATarget = false;
+    [HideInInspector] public bool getATarget = false;
     public LayerMask enemyMask;
     public LayerMask obstacleMask;
     public bool isAttackDebug = true;

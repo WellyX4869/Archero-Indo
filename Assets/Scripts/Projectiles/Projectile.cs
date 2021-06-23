@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] float delayUntilDestroyed = 3f;
-    public bool isPlayerProjectile = false;
+    [HideInInspector] public bool isPlayerProjectile = false;
     public bool isBouncy = false;
     public float damage = 100f;
     [HideInInspector] public Rigidbody rb;
@@ -32,6 +32,11 @@ public class Projectile : MonoBehaviour
             projectileSpeed = PlayerTargeting.Instance.projectileSpeed + (200f * PlayerData.Instance.PlayerSkill[9]);
             damage = PlayerData.Instance.damage;
             rb.AddForce(transform.forward * projectileSpeed);
+        }
+        else
+        {
+            var gameSession = FindObjectOfType<GameSession>();
+            damage += (gameSession.currentLevel * 10f);
         }
 
         if (isBouncy)
@@ -194,6 +199,7 @@ public class Projectile : MonoBehaviour
         var enemyPos = enemy.transform.position;
         enemyPos.y += 20f;
         var damageText = Instantiate(EffectSet.Instance.MonsterDmgText, enemyPos, Quaternion.identity) as GameObject;
+        damageText.transform.parent = EffectSet.Instance.transform;
         float damageCrit = damage;
         bool isCritical = false;
         if(Random.value > PlayerData.Instance.critRNG) // damage is critical
