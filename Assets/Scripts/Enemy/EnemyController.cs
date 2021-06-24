@@ -110,6 +110,7 @@ public class EnemyController: MonoBehaviour
         if (IsPlayerWithinAttackRange())
         {
             player.GetComponent<PlayerHpBar>().GetAttacked(damage);
+            EffectSet.Instance.PlayPlayerDamagedSFX();
         }
     }
     #endregion

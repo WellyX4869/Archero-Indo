@@ -23,9 +23,44 @@ public class EffectSet : MonoBehaviour
 
     private static EffectSet instance;
 
-    [Header("Monster")]
-    public GameObject MonsterDmgText;
+    [Header("Enemy")]
+    public GameObject enemyDmgText;
+    [SerializeField] AudioClip enemyDamagedSFX;
 
     [Header("Player")]
-    public GameObject PlayerLevelUpEffect;
+    [SerializeField] AudioClip playerDamagedSFX;
+    [SerializeField] AudioClip playerGetExpSFX;
+
+    [Header("Others")]
+    [SerializeField] AudioClip winGameSFX;
+    [SerializeField] AudioClip loseGameSFX;
+
+    #region Enemy
+    public void PlayEnemyDamagedSFX()
+    {
+        AudioSource.PlayClipAtPoint(enemyDamagedSFX, Camera.main.transform.position, 0.7f);
+    }
+    #endregion
+
+    #region PLAYER
+    public void PlayPlayerDamagedSFX()
+    {
+        AudioSource.PlayClipAtPoint(playerDamagedSFX, Camera.main.transform.position);
+    }
+    public void PlayPlayerGetExpSFX()
+    {
+        AudioSource.PlayClipAtPoint(playerGetExpSFX, Camera.main.transform.position);
+    }
+    #endregion
+
+    #region OTHERS
+    public void PlayWinGameSFX()
+    {
+        AudioSource.PlayClipAtPoint(winGameSFX, Camera.main.transform.position);
+    }
+    public void PlayLoseGameSFX()
+    {
+        AudioSource.PlayClipAtPoint(loseGameSFX, Camera.main.transform.position);
+    }
+    #endregion
 }

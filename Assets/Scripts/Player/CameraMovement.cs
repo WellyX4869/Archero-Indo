@@ -53,7 +53,6 @@ public class CameraMovement : MonoBehaviour
     {
         // Fade in/out
         StartCoroutine(FadeInOut());
-        cameraPosition.x = Player.transform.position.x;
     }
 
     IEnumerator FadeInOut()

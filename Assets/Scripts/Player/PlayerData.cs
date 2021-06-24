@@ -52,6 +52,6 @@ public class PlayerData : MonoBehaviour
 
     public void CriticalBoost()
     {
-        critRNG -= 0.05f;
+        critRNG -= 0.025f;
     }
 }

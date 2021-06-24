@@ -89,6 +89,7 @@ public class PlayerTargeting : MonoBehaviour
         if (MonsterList.Count <= 0 && other.transform.CompareTag("EXP"))
         {
             ExpBar.Instance.AddExp();
+            EffectSet.Instance.PlayPlayerGetExpSFX();
             Destroy(other.transform.parent.gameObject);
         }
     }

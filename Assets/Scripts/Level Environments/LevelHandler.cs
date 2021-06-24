@@ -19,7 +19,6 @@ public class LevelHandler : MonoBehaviour
     {
         isLevelCleared = false;
       
-
         joystick.SetActive(true);
         slotCanvas.SetActive(false);
         canvasLose.SetActive(false);
@@ -57,12 +56,17 @@ public class LevelHandler : MonoBehaviour
         }
         else
         {
-            PlayerData.Instance.currentHp = PlayerHpBar.Instance.currentHp;
-            PlayerData.Instance.maxHp = PlayerHpBar.Instance.maxHp;
-
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            FindObjectOfType<CameraMovement>().CameraNextRoom();
+            StartCoroutine(LoadNextLevel());
         }
+    }
+
+    IEnumerator LoadNextLevel()
+    {
+        PlayerData.Instance.currentHp = PlayerHpBar.Instance.currentHp;
+        PlayerData.Instance.maxHp = PlayerHpBar.Instance.maxHp;
+        joystick.transform.parent.GetComponent<Animator>().SetTrigger("Start");
+        yield return new WaitForSeconds(0.2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GoToMainMenu()
@@ -89,6 +93,7 @@ public class LevelHandler : MonoBehaviour
 
     public void WinGame()
     {
+        EffectSet.Instance.PlayWinGameSFX();
         joystick.gameObject.SetActive(false);
         Time.timeScale = 0;
         canvasWin.gameObject.SetActive(true);
@@ -103,6 +108,7 @@ public class LevelHandler : MonoBehaviour
     {
         PlayerMovement.Instance.anim.SetTrigger("DEAD");
         yield return new WaitForSeconds(1.5f);
+        EffectSet.Instance.PlayLoseGameSFX();
         joystick.gameObject.SetActive(false);
         Time.timeScale = 0;
         canvasLose.gameObject.SetActive(true);

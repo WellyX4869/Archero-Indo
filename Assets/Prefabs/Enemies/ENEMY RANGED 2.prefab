@@ -10183,7 +10183,7 @@ MonoBehaviour:
   lineRendWidth: 2
   enemyProjectile: {fileID: -2188695764543550968, guid: d72dbb80c09363f4cb1bbe98d92f564b,
     type: 3}
-  projectileSpeed: 2500
+  projectileSpeed: 3250
   projectileSpawnPoint: {fileID: 4832124370261047920}
   layerMask:
     serializedVersion: 2

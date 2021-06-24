@@ -7,7 +7,7 @@ public class MainMenuHandler : MonoBehaviour
 {
 	public void StartLevel()
 	{
-		SceneManager.LoadScene("Sandbox");
+		SceneManager.LoadScene("Game");
 	}
 	public void Exit()
 	{

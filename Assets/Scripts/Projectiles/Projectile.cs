@@ -31,6 +31,8 @@ public class Projectile : MonoBehaviour
         {
             projectileSpeed = PlayerTargeting.Instance.projectileSpeed + (200f * PlayerData.Instance.PlayerSkill[9]);
             damage = PlayerData.Instance.damage;
+            NerfAbilities();
+
             rb.AddForce(transform.forward * projectileSpeed);
         }
         else
@@ -47,6 +49,21 @@ public class Projectile : MonoBehaviour
         else
         {
             Destroy(gameObject, delayUntilDestroyed);
+        }
+    }
+
+    private void NerfAbilities()
+    {
+        if (PlayerData.Instance.PlayerSkill[1] > 0) // Multishot Nerf
+        {
+            damage -= (0.1f * PlayerData.Instance.PlayerSkill[1] * damage);
+        }
+        if(PlayerData.Instance.PlayerSkill[2]> 0) // Forward arrow + 1 nerf
+        {
+            for(int i = 0; i < PlayerData.Instance.PlayerSkill[2]; i++)
+            {
+                damage = 0.75f * damage;
+            }
         }
     }
 
@@ -192,13 +209,15 @@ public class Projectile : MonoBehaviour
     {
         var playerHP = FindObjectOfType<PlayerHpBar>();
         playerHP.GetAttacked((int)(Mathf.Floor(damage)));
+        EffectSet.Instance.PlayPlayerDamagedSFX();
     }
     private void HitEnemy(Collider enemy)
     {
         // Spawn Floating Damage Text
         var enemyPos = enemy.transform.position;
         enemyPos.y += 20f;
-        var damageText = Instantiate(EffectSet.Instance.MonsterDmgText, enemyPos, Quaternion.identity) as GameObject;
+        EffectSet.Instance.PlayEnemyDamagedSFX();
+        var damageText = Instantiate(EffectSet.Instance.enemyDmgText, enemyPos, Quaternion.identity) as GameObject;
         damageText.transform.parent = EffectSet.Instance.transform;
         float damageCrit = damage;
         bool isCritical = false;
@@ -208,6 +227,7 @@ public class Projectile : MonoBehaviour
             damageCrit = (damage*2) + critDamage;
             isCritical = true;
         }
+        damageCrit = Mathf.Round(damageCrit);
         damageText.GetComponent<DamageText>().DisplayDamage(damageCrit, isCritical);
 
         // HitEnemy With Damage

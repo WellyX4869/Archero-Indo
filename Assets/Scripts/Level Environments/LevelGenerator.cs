@@ -217,7 +217,7 @@ public class LevelGenerator : MonoBehaviour
     {
         var wallTile = Instantiate(wallObject, transform.position, Quaternion.identity);
         wallTile.transform.parent = wallParent;
-        float posY = floorY + wallTile.transform.localScale.y - floorObject[0].transform.localScale.y / 2;
+        float posY = floorY + wallTile.transform.localScale.y/2 + floorObject[0].transform.localScale.y / 2;
         wallTile.GetComponent<SnapEditor>().ChangePosition(new Vector3(i, posY, j));
     }
 
