@@ -37,6 +37,7 @@ public class LevelGenerator : MonoBehaviour
     void Start()
     {
         gameSession = FindObjectOfType<GameSession>();
+        gameSession.SetDifficulty();
         surface = GetComponent<NavMeshSurface>();
         GenerateLevel();
     }

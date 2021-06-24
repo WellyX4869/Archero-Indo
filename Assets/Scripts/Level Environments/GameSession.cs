@@ -38,6 +38,13 @@ public class GameSession : MonoBehaviour
         }
     }
 
+    public void SetDifficulty()
+    {
+        int difficulty = GameSettings.difficulty + 1;
+        currentLevel = 1;
+        maxLevel = difficulty * 5;
+    }
+
     public void ResetGame()
     {
         Destroy(gameObject);

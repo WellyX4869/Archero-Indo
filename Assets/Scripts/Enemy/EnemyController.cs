@@ -65,6 +65,8 @@ public class EnemyController: MonoBehaviour
         else
         {
             firstAttack = true;
+            var gameSession = FindObjectOfType<GameSession>();
+            damage += (gameSession.currentLevel * 10);
         }
         TransitionToState(idleState);
     }
