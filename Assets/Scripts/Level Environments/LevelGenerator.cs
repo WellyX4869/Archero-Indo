@@ -242,11 +242,7 @@ public class LevelGenerator : MonoBehaviour
                 if (enemiesSpawned >= maxEnemies) break;
                 for (int j = -6; j < edgeY; j++)
                 {
-                    if (enemiesSpawned >= maxEnemies)
-                    {
-                        Debug.Log(i);
-                        break;
-                    }
+                    if (enemiesSpawned >= maxEnemies) break;
                     if (!isPlacable[i + edgeX][j + edgeY]) continue;
 
                     if (UnityEngine.Random.Range(0f, 1f) > 0.95f) // random chance to spawn enemies

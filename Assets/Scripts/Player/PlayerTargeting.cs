@@ -185,12 +185,14 @@ public class PlayerTargeting : MonoBehaviour
                 transform.LookAt(new Vector3(MonsterList[targetIndex].transform.position.x, transform.position.y, MonsterList[targetIndex].transform.position.z));
                 //Set animation Attack
                 playerMovement.playerState = PlayerState.attack;
-                playerMovement.anim.SetBool("ATTACK", true);
+                if(playerMovement.anim!=null)
+                    playerMovement.anim.SetBool("ATTACK", true);
             }
             else
             {
                 playerState = PlayerState.idle;
-                playerMovement.anim.SetBool("ATTACK", false);
+                if (playerMovement.anim != null)
+                    playerMovement.anim.SetBool("ATTACK", false);
             }
         }
     }
