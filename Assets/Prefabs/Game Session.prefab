@@ -43,8 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 522e7991c7a8d0342bbfa0e68405b67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  damageIncrease: 50
+  damage: 100
+  damageIncrease: 40
   critRNG: 0.8
   PlayerSkill: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   PlayerSkillLimit: 010000000100000002000000030000000100000003000000030000000100000006000000060000000600000006000000
@@ -52,6 +52,8 @@ MonoBehaviour:
   - {fileID: 7339735882886915576, guid: 4144de14644c10645bb9afc87df15f0e, type: 3}
   - {fileID: 4775326773797714631, guid: 7848681cf05123f44ac19ac55ebd2fea, type: 3}
   - {fileID: 2861678386789834455, guid: 07afdc9d36414ce4d93ff4a2145776ec, type: 3}
+  currentHp: 1000
+  maxHp: 1000
 --- !u!1 &5598231653015158964
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,9 +115,9 @@ MonoBehaviour:
   - 8500
   - 11000
   - 14000
-  expAbsorbed: 100
+  expAbsorbed: 10
   maxPlayerLevel: 10
   currentPlayerLevel: 0
   enemyProjectileSpeed: 1
   currentLevel: 1
-  maxLevel: 1
+  maxLevel: 5
