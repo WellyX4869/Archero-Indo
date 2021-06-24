@@ -44,6 +44,7 @@ public class PlayerHpBar : MonoBehaviour
         }
 
         HpLineFolder.GetComponent<HorizontalLayoutGroup>().gameObject.SetActive(true);
+        SetHP(PlayerData.Instance.currentHp, PlayerData.Instance.maxHp);
     }
 
     // Update is called once per frame
@@ -78,5 +79,11 @@ public class PlayerHpBar : MonoBehaviour
             currentHp = 0;
             FindObjectOfType<LevelHandler>().LoseGame();
         }
+    }
+
+    public void SetHP(float _HP, float _maxHP)
+    {
+        currentHp = _HP;
+        maxHp = _maxHP;
     }
 }

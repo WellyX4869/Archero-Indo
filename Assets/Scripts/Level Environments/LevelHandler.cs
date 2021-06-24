@@ -57,6 +57,9 @@ public class LevelHandler : MonoBehaviour
         }
         else
         {
+            PlayerData.Instance.currentHp = PlayerHpBar.Instance.currentHp;
+            PlayerData.Instance.maxHp = PlayerHpBar.Instance.maxHp;
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             FindObjectOfType<CameraMovement>().CameraNextRoom();
         }

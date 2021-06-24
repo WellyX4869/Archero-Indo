@@ -4406,8 +4406,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5598231652899340493, guid: c32ffda305943524e9355d9a11342754,
         type: 3}
+      propertyPath: maxHp
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598231652899340493, guid: c32ffda305943524e9355d9a11342754,
+        type: 3}
       propertyPath: damage
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598231652899340493, guid: c32ffda305943524e9355d9a11342754,
+        type: 3}
+      propertyPath: currentHp
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5598231652899340493, guid: c32ffda305943524e9355d9a11342754,
         type: 3}

@@ -28,6 +28,8 @@ public class PlayerData : MonoBehaviour
     public List<int> PlayerSkill = new List<int>();
     public List<int> PlayerSkillLimit = new List<int>();
     public GameObject[] playerProjectiles;
+    public float currentHp = 1000;
+    public float maxHp = 1000;
 
     /*
     PlayerSkill[0] = Ricochet

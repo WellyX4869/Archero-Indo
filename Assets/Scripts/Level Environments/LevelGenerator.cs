@@ -226,6 +226,7 @@ public class LevelGenerator : MonoBehaviour
         var playerClone = Instantiate(player, transform.position, Quaternion.identity);
         CameraMovement.Instance.GetPlayer();
         FindObjectOfType<LevelHandler>().GetPlayer();
+        //PlayerHpBar.Instance.SetHP(PlayerData.Instance.currentHp, PlayerData.Instance.maxHp);
     }
 
     private void SpawnEnemies()
