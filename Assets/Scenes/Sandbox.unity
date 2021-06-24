@@ -1993,6 +1993,7 @@ MonoBehaviour:
   - {fileID: 1474826476956205484, guid: 1413114fdd4e60a4fbe6749c438d3a34, type: 3}
   - {fileID: 4832124370697926741, guid: ab122627ff30e4e41a85092503703fcb, type: 3}
   enemiesParent: {fileID: 253912779}
+  isDemo: 0
 --- !u!114 &2063747960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2435,10 +2436,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5598231652899340493, guid: c32ffda305943524e9355d9a11342754,
+        type: 3}
+      propertyPath: damage
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 5598231653015158964, guid: c32ffda305943524e9355d9a11342754,
         type: 3}
       propertyPath: m_Name
       value: Game Session
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598231653015158965, guid: c32ffda305943524e9355d9a11342754,
+        type: 3}
+      propertyPath: expAbsorbed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5598231653015158965, guid: c32ffda305943524e9355d9a11342754,
         type: 3}

@@ -32,12 +32,17 @@ public class LevelGenerator : MonoBehaviour
     NavMeshSurface surface;
     int edgeX, edgeY;
     float gridSize;
+
+    public bool isDemo = false;
     
     // Start is called before the first frame update
     void Start()
     {
         gameSession = FindObjectOfType<GameSession>();
-        gameSession.SetDifficulty();
+        if(gameSession.currentLevel == 1)
+            gameSession.SetDifficulty();
+        if (isDemo)
+            gameSession.maxLevel = 2;
         surface = GetComponent<NavMeshSurface>();
         GenerateLevel();
     }
@@ -237,6 +242,12 @@ public class LevelGenerator : MonoBehaviour
         int variantEnemies = checkerEnemies > 3? 3: checkerEnemies;
         int enemiesSpawned = 0;
 
+        if(isDemo)
+        {
+            variantEnemies = 3;
+            maxEnemies += 1;
+        }
+
         while (enemiesSpawned < maxEnemies)
         {
             for (int i = -edgeX+2; i < edgeX-1; i++)
@@ -253,6 +264,10 @@ public class LevelGenerator : MonoBehaviour
                         {
                             Vector3 enemyPos = new Vector3(i * gridSize, floorY, j * gridSize);
                             var randomEnemyIndex = UnityEngine.Random.Range(0, variantEnemies);
+                            if (isDemo)
+                            {
+                                randomEnemyIndex = enemiesSpawned % 3;
+                            }
                             var enemy = Instantiate(enemies[randomEnemyIndex], enemyPos, Quaternion.identity);
                             enemy.transform.parent = enemiesParent;
                             enemiesSpawned++;
